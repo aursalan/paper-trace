@@ -15,7 +15,7 @@ export default function WorkspaceSidebar() {
       }
 
       try {
-        const res = await fetch(`http://localhost:8000/documents/${sessionId}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/documents/${sessionId}`);
         if (res.ok) {
           const data = await res.json();
           setDocuments(data.documents || []);

@@ -62,7 +62,7 @@ export default function ChatWindow() {
     }
 
     setUploading(true);
-    const uploadPromise = fetch("http://localhost:8000/upload", {
+    const uploadPromise = fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`, {
       method: "POST",
       body: formData,
     }).then(async (res) => {
@@ -102,7 +102,7 @@ export default function ChatWindow() {
       setQuestion("");
 
       try {
-        const res = await fetch("http://localhost:8000/health");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/health`);
         if (!res.ok) throw new Error("Health check failed");
         const data = await res.json();
 
@@ -131,7 +131,7 @@ export default function ChatWindow() {
     setQuestion("");
 
     try {
-      const res = await fetch("http://localhost:8000/ask", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ session_id: sessionId, question: input }),
