@@ -7,6 +7,10 @@ from contextlib import asynccontextmanager
 
 from db import init_global_collection, create_tenant, delete_tenant, client, GLOBAL_COLLECTION_NAME
 from ingest import ingest_files
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -20,13 +24,16 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://your-vercel-app.vercel.app"],
+    allow_origins=[FRONTEND_URL] if FRONTEND_URL else [],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 SESSION_TTL = 1800 
 
